@@ -718,6 +718,134 @@ a:hover { color: var(--pink); }
 .ok-title { font-size: 0.7rem; color: var(--teal); margin-bottom: 12px; text-shadow: var(--glow-t); }
 .ok-body  { font-size: 0.45rem; color: var(--grey); line-height: 2.2; letter-spacing: 0.08em; }
 
+/* === PARTNERS === */
+#partners {
+  padding: 80px 20px;
+  background: var(--bg-alt);
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+  margin-top: -30px;
+  scroll-margin-top: 100px;
+}
+
+#partners .section-title {
+  margin-bottom: 50px;
+  text-shadow: var(--glow-t);
+}
+
+/* === MARQUEE === */
+.partners-marquee {
+  overflow: hidden;
+  position: relative;
+  padding: 30px 0;
+}
+
+/* fade edges */
+.partners-marquee::before,
+.partners-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+}
+
+.partners-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-alt), transparent);
+}
+
+.partners-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-alt), transparent);
+}
+
+/* track */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scrollMarquee 8s linear infinite;
+}
+
+/* cards */
+.partner {
+  flex: 0 0 auto;
+  width: 180px;
+  height: 100px;
+  margin: 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+
+  /* base state */
+  opacity: 0.6;
+  transform: scale(0.95);
+
+  transition: all 0.5s ease;
+}
+
+/* NCFA text logo */
+.ncfa-logo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 20px;
+
+  color: #ececff; /* matches their --text */
+
+  /* subtle glow to match your site */
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+
+/* logos */
+.partner img {
+  max-height: 55px;
+  max-width: 100%;
+  object-fit: contain;
+
+  /* clean monochrome */
+  filter: brightness(0) invert(1) grayscale(100%);
+  transition: all 0.5s ease;
+}
+
+/* hover */
+.partner:hover {
+  border-color: var(--teal);
+  transform: scale(1.1);
+  box-shadow: var(--glow-t);
+}
+
+.partner:hover img {
+  filter: none;
+}
+
+/* === SCROLL GLOW (CRISP VERSION) === */
+.partner.in-view {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+}
+
+.partner.in-view img {
+  filter: brightness(1.2); /* no blur */
+}
+
+/* animation */
+@keyframes scrollMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* === JOIN === */
 .join-layout {
   display: grid;

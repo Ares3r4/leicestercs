@@ -100,3 +100,28 @@ document.getElementById('ideaForm')?.addEventListener('submit', function(e) {
     document.getElementById('ideaOk').style.display = 'block';
   }, 1000);
 });
+
+/* === PARTNERS MARQUEE DUPLICATION === */
+const track = document.querySelector('.marquee-track');
+
+if (track) {
+  const content = track.innerHTML;
+  track.innerHTML += content + content + content;
+}
+
+/* === SCROLL GLOW EFFECT === */
+const partners = document.querySelectorAll('.partner');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+    } else {
+      entry.target.classList.remove('in-view');
+    }
+  });
+}, {
+  threshold: 0.6
+});
+
+partners.forEach(p => observer.observe(p));
