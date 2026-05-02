@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ideas — LeicesterCS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="192x192" href="favicon-192.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="LeicesterCS" />
+  <meta property="og:title"       content="Ideas — LeicesterCS" />
+  <meta property="og:description" content="Got a suggestion for LeicesterCS? Submit your idea — the committee reads every one." />
+  <meta property="og:url"         content="https://leicestercs.co.uk/ideas.html" />
+  <meta property="og:image"       content="https://leicestercs.co.uk/favicon-192.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Ideas — LeicesterCS" />
+  <meta name="twitter:description" content="Got a suggestion for LeicesterCS? Submit your idea — the committee reads every one." />
+  <meta name="twitter:image"       content="https://leicestercs.co.uk/favicon-192.png" />
+
+  <!-- Meta description -->
+  <meta name="description" content="Got a suggestion for LeicesterCS? Submit your idea — the committee reads every one." />
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">LeicesterCS</a>
+      <ul class="nav-links">
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="partners.html">PARTNERS</a></li>
+        <li><a href="events.html">EVENTS</a></li>
+        <li><a href="shop.html">SHOP</a></li>
+        <li><a href="gallery.html">GALLERY</a></li>
+        <li><a href="team.html">TEAM</a></li>
+        <li><a href="ideas.html">IDEAS</a></li>
+        <li><a href="join.html">JOIN</a></li>
+      </ul>
+      <a href="https://discord.gg/VAg2SQfhEq" target="_blank" class="nav-cta">DISCORD</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="about.html"    class="mm-link">ABOUT</a>
+    <a href="partners.html" class="mm-link">PARTNERS</a>
+    <a href="events.html"   class="mm-link">EVENTS</a>
+    <a href="shop.html"     class="mm-link">SHOP</a>
+    <a href="gallery.html"  class="mm-link">GALLERY</a>
+    <a href="team.html"     class="mm-link">TEAM</a>
+    <a href="ideas.html"    class="mm-link">IDEAS</a>
+    <a href="join.html"     class="mm-link">JOIN</a>
+  </div>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-header-inner">
+        <div class="sec-label">// 06 — IDEAS</div>
+        <h1 class="sec-title">GOT A<br/><span class="accent">SUGGESTION?</span></h1>
+      </div>
+    </div>
+
+    <main class="page-main">
+      <div class="container">
+        <div class="ideas-layout">
+          <div class="ideas-left">
+            <p class="ideas-body">The society runs on what members want. Tell us what you think we should do — we read every submission.</p>
+          </div>
+          <div class="ideas-right">
+            <form id="ideaForm">
+              <div class="fg">
+                <label>YOUR NAME <span class="opt">(OPTIONAL)</span></label>
+                <input type="text" name="name" placeholder="JOHN DOE" />
+              </div>
+              <div class="fg">
+                <label>TYPE</label>
+                <select name="type">
+                  <option value="">— SELECT —</option>
+                  <option>EVENT IDEA</option>
+                  <option>WORKSHOP TOPIC</option>
+                  <option>SOCIETY IMPROVEMENT</option>
+                  <option>COLLAB WITH ANOTHER SOCIETY</option>
+                  <option>MERCH IDEA</option>
+                  <option>SOMETHING ELSE</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label>YOUR IDEA <span class="req">*</span></label>
+                <textarea name="idea" rows="4" placeholder="TELL US WHAT YOU'RE THINKING..." required></textarea>
+              </div>
+              <button type="submit" class="btn-primary full" id="ideaBtn">SUBMIT</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logo">LEICESTERCS</div>
+            <div class="footer-sub">UNIVERSITY OF LEICESTER CS SOCIETY</div>
+            <div class="footer-sub dim">EST. 2009 · BEST STUDENT GROUP 23/24</div>
+          </div>
+          <div class="footer-links">
+            <a href="https://leicestercs.co.uk" target="_blank">LEICESTERCS.CO.UK</a>
+            <a href="mailto:SU-COMPSOC@leicester.ac.uk">SU-COMPSOC@LEICESTER.AC.UK</a>
+            <a href="https://www.leicesterunion.com/sportsandsocs/societies/18501/" target="_blank">UNION PAGE</a>
+            <a href="https://discord.gg/VAg2SQfhEq" target="_blank">DISCORD</a>
+            <a href="https://instagram.com/uol_computerscience" target="_blank">INSTAGRAM</a>
+          </div>
+        </div>
+        <div class="footer-rule"></div>
+        <div class="footer-bottom">
+          <span>© 2025 LEICESTERCS</span>
+          <span>MADE IN LEICESTER</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>
