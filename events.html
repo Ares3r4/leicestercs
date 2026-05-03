@@ -93,6 +93,7 @@
               <button type="submit">Add Event</button>
             </form>
           </div>
+          <button id="logout-btn" style="display: none; margin-top: 16px;">Logout</button>
         </div>
 
         <div style="margin-top:48px; padding:32px; border:1px solid var(--border); background:var(--bg-card);">
@@ -179,8 +180,7 @@
           if (response.ok) {
             const data = await response.json();
             localStorage.setItem('adminToken', data.token);
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('add-event-section').style.display = 'block';
+            setAdminState(true);
             showToast('Logged in successfully', 'success');
           } else {
             showToast('Invalid password', 'error');
@@ -190,12 +190,31 @@
         }
       });
 
+      const loginForm = document.getElementById('login-form');
+      const addEventSection = document.getElementById('add-event-section');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      function setAdminState(loggedIn) {
+        if (loggedIn) {
+          loginForm.style.display = 'none';
+          addEventSection.style.display = 'block';
+          logoutBtn.style.display = 'inline-flex';
+        } else {
+          loginForm.style.display = 'block';
+          addEventSection.style.display = 'none';
+          logoutBtn.style.display = 'none';
+          localStorage.removeItem('adminToken');
+        }
+      }
+
       // Check if already logged in
       const token = localStorage.getItem('adminToken');
-      if (token) {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('add-event-section').style.display = 'block';
-      }
+      setAdminState(Boolean(token));
+
+      logoutBtn.addEventListener('click', () => {
+        setAdminState(false);
+        showToast('Logged out', 'success');
+      });
 
       document.getElementById('add-event-form').addEventListener('submit', async (e) => {
         e.preventDefault();

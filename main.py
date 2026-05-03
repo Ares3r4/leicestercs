@@ -21,7 +21,14 @@ app.add_middleware(
 
 # In-memory storage
 products = []
-events = []
+events = [
+    {
+        "title": "Minecraft SMP",
+        "date": "Ongoing",
+        "description": "Join our community Minecraft server anytime. Chat, build, and play with fellow LeicesterCS members.",
+        "location": "Minecraft SMP"
+    }
+]
 
 # Sensitive values are loaded from environment variables so they are not stored in Git.
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
