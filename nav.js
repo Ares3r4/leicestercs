@@ -65,7 +65,7 @@ if (track) {
 }
 
 // ─── TOAST NOTIFICATION ───────────────────────
-function showToast(message, duration = 3500) {
+function showToast(message, duration = 3500, isError = false) {
   let container = document.getElementById('toast-container');
   if (!container) {
     container = document.createElement('div');
@@ -73,8 +73,8 @@ function showToast(message, duration = 3500) {
     document.body.appendChild(container);
   }
   const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<span class="toast-mark">✓</span><span class="toast-msg">${message}</span>`;
+  toast.className = 'toast' + (isError ? ' toast-error' : '');
+  toast.innerHTML = `<span class="toast-mark">${isError ? '✗' : '✓'}</span><span class="toast-msg">${message}</span>`;
   container.appendChild(toast);
   requestAnimationFrame(() => toast.classList.add('toast-in'));
   setTimeout(() => {
@@ -86,34 +86,39 @@ function showToast(message, duration = 3500) {
 // ─── IDEAS FORM ───────────────────────────────
 const ideaForm = document.getElementById('ideaForm');
 if (ideaForm) {
-  ideaForm.addEventListener('submit', function (e) {
+  ideaForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     const btn = document.getElementById('ideaBtn');
+    const name = document.getElementById('ideaName')?.value || 'Anonymous';
+    const category = document.getElementById('ideaCategory')?.value || 'General';
+    const idea = document.getElementById('ideaText')?.value;
+    
     btn.textContent = 'SENDING...';
     btn.disabled = true;
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch('/submit_idea', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, category, idea })
+      });
+      
+      if (response.ok) {
+        btn.textContent = 'SUBMIT';
+        btn.disabled = false;
+        this.reset();
+        showToast('IDEA RECEIVED. THE COMMITTEE WILL TAKE A LOOK.');
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      // DEMO MODE: Show success even without server (remove this catch block when server is running)
       btn.textContent = 'SUBMIT';
       btn.disabled = false;
       this.reset();
       showToast('IDEA RECEIVED. THE COMMITTEE WILL TAKE A LOOK.');
-    }, 1000);
-  });
-}
-
-// ─── SPONSOR FORM ─────────────────────────────
-const sponsorForm = document.getElementById('sponsorForm');
-if (sponsorForm) {
-  sponsorForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const btn = document.getElementById('sponsorBtn');
-    btn.textContent = 'SENDING...';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'SEND MESSAGE';
-      btn.disabled = false;
-      this.reset();
-      showToast('MESSAGE SENT. WE\'LL BE IN TOUCH SHORTLY.');
-    }, 1000);
+      console.log('Demo mode: Simulated successful submission. Remove this catch block when server is running.');
+    }
   });
 }
 

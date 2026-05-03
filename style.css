@@ -397,7 +397,7 @@ a:hover { color: var(--pink); }
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: scrollMarquee 8s linear infinite;
+  animation: scrollMarquee 20s linear infinite;
 }
 @keyframes scrollMarquee {
   from { transform: translateX(0); }
@@ -851,7 +851,7 @@ a:hover { color: var(--pink); }
   letter-spacing: 0.08em;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s, box-shadow 0.2s;
   pointer-events: auto;
   max-width: 340px;
 }
@@ -859,11 +859,19 @@ a:hover { color: var(--pink); }
   opacity: 1;
   transform: translateY(0);
 }
+.toast.toast-error {
+  border-color: #ff4444;
+  box-shadow: 0 0 5px rgba(255,68,68,0.7), 0 0 14px rgba(255,68,68,0.32);
+}
 .toast-mark {
   color: var(--teal);
   font-size: 0.6rem;
   text-shadow: var(--glow-t-sm);
   flex-shrink: 0;
+}
+.toast.toast-error .toast-mark {
+  color: #ff4444;
+  text-shadow: 0 0 5px rgba(255,68,68,0.7);
 }
 @media (max-width: 500px) {
   #toast-container { bottom: 16px; right: 16px; left: 16px; }
