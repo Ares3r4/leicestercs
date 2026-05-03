@@ -51,6 +51,81 @@ document.querySelectorAll('.tc-flip-btn').forEach(btn => {
   });
 });
 
+// ─── INTERACTIVE ENHANCEMENTS ───────────────────────────
+// Loading state for forms
+function showLoading(element) {
+  element.classList.add('loading');
+}
+
+function hideLoading(element) {
+  element.classList.remove('loading');
+}
+
+// Toast notifications
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toast-container') || createToastContainer();
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    <span class="toast-mark">${type === 'success' ? '✓' : '✗'}</span>
+    <span class="toast-text">${message}</span>
+  `;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('toast-in'), 10);
+  setTimeout(() => {
+    toast.classList.remove('toast-in');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+function createToastContainer() {
+  const container = document.createElement('div');
+  container.id = 'toast-container';
+  document.body.appendChild(container);
+  return container;
+}
+
+// Enhanced form submissions with loading
+document.addEventListener('DOMContentLoaded', () => {
+  // Ideas form
+  const ideasForm = document.getElementById('ideaForm');
+  if (ideasForm) {
+    ideasForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showLoading(ideasForm);
+      const formData = new FormData(ideasForm);
+      const data = {
+        name: formData.get('name') || 'Anonymous',
+        category: formData.get('type') || 'General',
+        idea: formData.get('idea')
+      };
+      try {
+        const response = await fetch('/submit_idea', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        showToast(result.message, response.ok ? 'success' : 'error');
+        if (response.ok) ideasForm.reset();
+      } catch (error) {
+        showToast('Failed to submit idea', 'error');
+      }
+      hideLoading(ideasForm);
+    });
+  }
+
+  // Add fade-in to dynamic content
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
+      }
+    });
+  });
+  document.querySelectorAll('.shop-card, .event-row').forEach(el => observer.observe(el));
+});
+
 // ─── PARTNER SCROLL GLOW ──────────────────────
 const partnerObs = new IntersectionObserver(entries => {
   entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));

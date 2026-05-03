@@ -73,21 +73,26 @@
 
     <main class="page-main">
       <div class="container">
-        <div class="events-list">
+        <div class="events-list" id="events-list">
+          <!-- Events will be loaded here -->
+        </div>
 
-          <div class="event-row">
-            <span class="ev-tag live">ACTIVE</span>
-            <div class="ev-body">
-              <div class="ev-name">MINECRAFT SMP SERVER ⛏</div>
-              <div class="ev-desc">Official LeicesterCS SMP. Free to join. Get the IP on Discord.</div>
-            </div>
-            <div class="ev-right">
-              <span class="ev-date">JAN – MAY 2025</span>
-              <a href="https://discord.gg/VAg2SQfhEq" target="_blank" class="ev-link">JOIN →</a>
-            </div>
+        <div id="admin-section" style="display: none; margin-top:48px; padding:32px; border:1px solid var(--border); background:var(--bg-card);">
+          <div id="login-form">
+            <div class="sec-label" style="margin-bottom:16px;">// ADMIN LOGIN</div>
+            <input type="password" id="admin-password" placeholder="Enter password">
+            <button id="login-btn">Login</button>
           </div>
-
-
+          <div id="add-event-section" style="display: none;">
+            <div class="sec-label" style="margin-bottom:16px;">// ADD NEW EVENT</div>
+            <form id="add-event-form">
+              <input type="text" id="event-title" placeholder="Title" required>
+              <input type="text" id="event-date" placeholder="Date (e.g., Jan 15, 2025)" required>
+              <textarea id="event-desc" placeholder="Description" required></textarea>
+              <input type="text" id="event-location" placeholder="Location">
+              <button type="submit">Add Event</button>
+            </form>
+          </div>
         </div>
 
         <div style="margin-top:48px; padding:32px; border:1px solid var(--border); background:var(--bg-card);">
@@ -124,5 +129,106 @@
   </div>
 
   <script src="nav.js"></script>
+  <script>
+    // Load events
+    async function loadEvents() {
+      const list = document.getElementById('events-list');
+      showLoading(list);
+      try {
+        const response = await fetch('/events');
+        const events = await response.json();
+        list.innerHTML = '';
+        if (events.length === 0) {
+          list.innerHTML = '<p>No events available yet.</p>';
+          return;
+        }
+        events.forEach(event => {
+          const row = document.createElement('div');
+          row.className = 'event-row';
+          row.innerHTML = `
+            <span class="ev-tag live">UPCOMING</span>
+            <div class="ev-body">
+              <div class="ev-name">${event.title}</div>
+              <div class="ev-desc">${event.description}</div>
+            </div>
+            <div class="ev-right">
+              <span class="ev-date">${event.date}</span>
+              <span class="ev-link">${event.location || 'TBD'}</span>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error loading events:', error);
+        list.innerHTML = '<p>Failed to load events.</p>';
+      }
+      hideLoading(list);
+    }
+
+    // Check if admin
+    if (window.location.search.includes('admin=true')) {
+      document.getElementById('admin-section').style.display = 'block';
+      document.getElementById('login-btn').addEventListener('click', async () => {
+        const password = document.getElementById('admin-password').value;
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+          });
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('adminToken', data.token);
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('add-event-section').style.display = 'block';
+            showToast('Logged in successfully', 'success');
+          } else {
+            showToast('Invalid password', 'error');
+          }
+        } catch (error) {
+          showToast('Login failed', 'error');
+        }
+      });
+
+      // Check if already logged in
+      const token = localStorage.getItem('adminToken');
+      if (token) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('add-event-section').style.display = 'block';
+      }
+
+      document.getElementById('add-event-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        showLoading(form);
+        const title = document.getElementById('event-title').value;
+        const date = document.getElementById('event-date').value;
+        const description = document.getElementById('event-desc').value;
+        const location = document.getElementById('event-location').value;
+        const token = localStorage.getItem('adminToken');
+        try {
+          const response = await fetch('/events', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-API-Key': token
+            },
+            body: JSON.stringify({ title, date, description, location })
+          });
+          const result = await response.json();
+          showToast(result.message, response.ok ? 'success' : 'error');
+          if (response.ok) {
+            form.reset();
+            loadEvents();
+          }
+        } catch (error) {
+          showToast('Failed to add event', 'error');
+        }
+        hideLoading(form);
+      });
+    }
+
+    loadEvents();
+  </script>
 </body>
 </html>
